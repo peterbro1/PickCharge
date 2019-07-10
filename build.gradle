@@ -1,0 +1,67 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:4.0.2"
+    }
+}
+
+apply plugin: 'java'
+
+group = pluginGroup
+version = pluginVersion
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+apply plugin: "com.github.johnrengelman.shadow"
+
+shadowJar{
+    minimize()
+    relocate 'ninja.leaping.configurate', 'lv.mtm123.pickcharge.ninja.leaping.configurate'
+    relocate 'lv.mtm123.spigotutils', 'lv.mtm123.pickcharge.spigotutils'
+}
+
+build.dependsOn shadowJar
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'destroystokyo-repo'
+        url = 'https://repo.destroystokyo.com/repository/maven-public/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+    maven { url "http://maven.sk89q.com/repo/" }
+    maven {
+        name = 'sponge'
+        url = 'https://repo.spongepowered.org/maven'
+    }
+    maven {
+        name = 'mtm123'
+        url = 'https://repo.mtm123.lv/'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compileOnly 'com.destroystokyo.paper:paper-api:1.12.2-R0.1-SNAPSHOT'
+    compileOnly 'com.sk89q.worldguard:worldguard-legacy:6.2'
+    compile 'org.spongepowered:configurate-yaml:3.4-SNAPSHOT'
+    compile 'lv.mtm123:spigotutils:0.4.0-SNAPSHOT'
+    compileOnly files('libs/PrisonMines_1.jar')
+    compileOnly files('libs/PlotSquared-Bukkit-18.04.28-154bad6-1983.jar')
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        filter ReplaceTokens, tokens: [version: version]
+    }
+}
