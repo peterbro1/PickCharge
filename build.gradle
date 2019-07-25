@@ -46,6 +46,10 @@ repositories {
         name = 'mtm123'
         url = 'https://repo.mtm123.lv/'
     }
+    maven {
+        name = 'viaversion-repo'
+        url = 'https://repo.viaversion.com/'
+    }
 }
 
 dependencies {
@@ -54,7 +58,14 @@ dependencies {
     compileOnly 'com.sk89q.worldguard:worldguard-legacy:6.2'
     compile 'org.spongepowered:configurate-yaml:3.4-SNAPSHOT'
     compile 'lv.mtm123:spigotutils:0.4.0-SNAPSHOT'
+   // compile "us.myles:viaversion:2.1.2"
+    compileOnly files('libs/paper.jar')
+    compileOnly files('libs/FeatherBoard_2.jar')
+    compileOnly files('libs/EasyBar.jar')
     compileOnly files('libs/PrisonMines_1.jar')
+    compileOnly files('libs/EasyBar-0.1.0-SNAPSHOT.jar')
+    compileOnly files('libs/ViaVersion-2.1.2.jar')
+    compileOnly files('libs/EasyBar-0.1.0-SNAPSHOT.jar')
     compileOnly files('libs/PlotSquared-Bukkit-18.04.28-154bad6-1983.jar')
 }
 

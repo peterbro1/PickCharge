@@ -1,0 +1,7 @@
+explosion-radius: 4.0
+boss-bar-text-charged: Right-click to release charge!
+blocks-required: 10
+boss-bar-color: GREEN
+boss-bar-text: 'Current charge: %charge%/100%'
+boss-bar-style: SOLID
+block-multiplier: 10

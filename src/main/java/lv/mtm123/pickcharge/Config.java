@@ -26,6 +26,9 @@ public class Config {
     @Setting("blocks-required")
     private int blocksRequired = 10;
 
+    @Setting("block-multiplier")
+    private int blockMultiplier = 2;
+
     public float getExplosionRadius() {
         return explosionRadius;
     }
@@ -49,5 +52,7 @@ public class Config {
     public String getBossBarTextCharged() {
         return bossBarTextCharged;
     }
+
+    public int getDropMultiplier(){return blockMultiplier;}
 
 }

@@ -1,0 +1,6 @@
+name: PickCharge
+version: 1.2
+main: lv.mtm123.pickcharge.PickCharge
+softdepend: [WorldGuard, PlotSquared, PrisonMines, EasyBar]
+authors: [MTM123,GMX]
+description: Allows to charge pickaxes

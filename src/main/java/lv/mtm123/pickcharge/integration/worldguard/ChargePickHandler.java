@@ -7,6 +7,7 @@ import com.sk89q.worldguard.session.Session;
 import com.sk89q.worldguard.session.handler.FlagValueChangeHandler;
 import com.sk89q.worldguard.session.handler.Handler;
 import lv.mtm123.pickcharge.PickCharge;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -31,7 +32,9 @@ public class ChargePickHandler extends FlagValueChangeHandler<State> {
         if (state != State.ALLOW) {
             return;
         }
-
+        if (PickCharge.getPlayerManager() == null) {
+            Bukkit.broadcastMessage("null playermanager");
+        }
         PickCharge.getPlayerManager().addPlayer(player);
     }
 
@@ -40,6 +43,9 @@ public class ChargePickHandler extends FlagValueChangeHandler<State> {
 
         if (state != State.ALLOW) {
             return true;
+        }
+        if (PickCharge.getPlayerManager() == null) {
+            Bukkit.broadcastMessage("null playermanager");
         }
 
         PickCharge.getPlayerManager().showBossBar(player);

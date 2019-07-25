@@ -8,6 +8,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.session.SessionManager;
+import lv.mtm123.easybar.EasyBar;
 import lv.mtm123.pickcharge.integration.plotsquared.PlotSquaredHook;
 import lv.mtm123.pickcharge.integration.prisonmines.PrisonMinesHook;
 import lv.mtm123.pickcharge.integration.worldguard.ChargePickHandler;
@@ -20,6 +21,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.yaml.snakeyaml.DumperOptions;
+import us.myles.ViaVersion.api.Via;
+import us.myles.ViaVersion.api.ViaAPI;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +37,7 @@ public final class PickCharge extends JavaPlugin {
     private PlotSquaredHook plotSquaredHook;
     private PrisonMinesHook prisonMinesHook;
     private RegionQuery rq;
+    public static ViaAPI api = null;
 
     @Override
     public void onLoad() {
@@ -43,6 +47,11 @@ public final class PickCharge extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+        if (getServer().getPluginManager().getPlugin("ViaVersion") == null){
+            getLogger().log(Level.SEVERE, "ViaVersion not found! Players on 1.8 will not receive a boss bar!");
+
+        }else
+            api = Via.getAPI();
 
         FlagRegistry registry = WGBukkit.getPlugin().getFlagRegistry();
 
@@ -87,7 +96,8 @@ public final class PickCharge extends JavaPlugin {
             prisonMinesHook = new PrisonMinesHook();
         }
 
-        playerManager = new PlayerManager(cfg);
+        getLogger().log(Level.SEVERE,"Creating palyer");
+        playerManager = new PlayerManager(EasyBar.getInstance().getBossBarManager(), cfg);
         getServer().getPluginManager().registerEvents(new PlayerListener(this, prisonMinesHook, playerManager, cfg), this);
 
     }
@@ -128,13 +138,6 @@ public final class PickCharge extends JavaPlugin {
     }
 
     public boolean canBreakBlock(Player player, Location loc) {
-
-/*        boolean charge = chargingAllowed(player, loc);
-        boolean canBuild = wgPlugin.canBuild(player, loc);
-        boolean hook = plotSquaredHook != null;
-        boolean road = hook && !plotSquaredHook.isRoad(loc);
-        boolean destroy = hook && plotSquaredHook.canDestroy(player, loc);*/
-
         return chargingAllowed(player, loc) && wgPlugin.canBuild(player, loc)
                 && (plotSquaredHook != null &&
                 !plotSquaredHook.isRoad(loc)
@@ -143,7 +146,6 @@ public final class PickCharge extends JavaPlugin {
     }
 
     public boolean chargingAllowed(Player player, Location loc) {
-
         if (rq == null) {
             rq = wgPlugin.getRegionContainer().createQuery();
         }
