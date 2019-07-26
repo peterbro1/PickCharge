@@ -90,7 +90,7 @@ public class PlayerListener implements Listener {
         blocks.stream().filter(b -> plugin.canBreakBlock(player, b.getLocation()))
                 .forEach(b -> {
                     for (int i = 0;i<=cfg.getDropMultiplier();i++) {
-                        b.getDrops().forEach(dr -> w.dropItemNaturally(b.getLocation(), dr));
+                        b.getDrops().forEach(dr -> player.getInventory().addItem(dr));
                     }
                     b.setType(Material.AIR);
                     if (prisonMinesHook != null) {
